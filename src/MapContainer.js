@@ -6,11 +6,17 @@ export default class MapContainer extends Component {
 
   state = {
     locations: [
-      {name: "Ensimag", location: {lat: 45.1931492, lng: 5.7674826999999596}},
-      {name: "Atos", location: {lat: 45.1539228, lng: 5.7207387999999355}},
-      {name: "Museum", location: {lat: 45.1949173, lng: 5.732278299999962}},
-      {name: "Stadium", location: {lat: 45.1874353, lng: 5.740127799999982}},
-      {name: "Mall", location: {lat: 45.158158, lng: 5.731906999999978}}
+      {name: "DisneyLand France", location: {lat: 48.872236, lng: 2.775808}},
+      {name: "PortAventura Spain", location: {lat: 41.087832, lng: 1.157246}},
+      {name: "Futuroscope France", location: {lat: 46.669860, lng: 0.369756}},
+      {name: "EuropaPark Germany", location: {lat: 48.266048, lng:  7.721986}},
+      {name: "AsterixPark France", location: {lat: 49.134226, lng: 2.571198}},
+      {name: "Grona Lund Sweden", location: {lat: 59.323384, lng:  18.096369}},
+      {name: "Gardaland Italy", location: {lat: 45.455035, lng:  10.713736}},
+      {name: "Tivoli Gardens Denmark", location: {lat: 55.673686, lng:  12.568145}},
+      {name: "Walibi Belgium", location: {lat: 50.701873, lng:  4.594033}},
+      {name: "Efteling Netherlands", location: {lat: 51.650653, lng:  5.049745}},
+
     ],
     query: '',
     markers: [],
@@ -35,7 +41,7 @@ export default class MapContainer extends Component {
       const node = ReactDOM.findDOMNode(mapRef)
 
       const mapConfig = Object.assign({}, {
-        center: {lat: 45.188529, lng: 5.724523999999974},
+        center: {lat: 52.500979, lng: 13.457640},
         zoom: 12,
         mapTypeId: 'roadmap'
       })
