@@ -130,8 +130,7 @@ class AppDrawer extends React.Component {
   componentDidMount() {
     this.loadMap()
     this.onclickLocation()
-    // Create a "highlighted location" marker color for when the user
-    // clicks on the marker.
+    // Create a deffirent color for the clicked marker
     this.setState({highlightedIcon: this.makeMarkerIcon('FFFF24')})
     this.getDataWiki()
   }
@@ -199,14 +198,14 @@ class AppDrawer extends React.Component {
     })
     this.map.fitBounds(bounds)
   }
-
+//handling the Wiki-Media API requestto get information
   getDataWiki = () => {
     let newData = [];
     let failedData = [];
     this.state.locations.map((location) => {
       return fetch(`https://en.wikipedia.org/w/api.php?&action=query&list=search&prop=extracts&titles&format=json&origin=*&srlimit=1&srsearch=${location.name}`, {
           headers: {
-            'Origin': 'http://localhost:3001/',
+            'Origin': 'http://localhost:3000/',
             'Content-Type': 'application/json; charset=utf-8'
           }
         })
@@ -260,9 +259,9 @@ class AppDrawer extends React.Component {
           </div>`);
         }
       })
-      //infowindow.setContent(`<h3>${marker.title}</h3><h4>user likes it</h4>`)
+      
       infowindow.open(this.map, marker)
-      // Make sure the marker property is cleared if the infowindow is closed.
+      // clearing the marker property when the infowindow is closed.
       infowindow.addListener('closeclick', function () {
         infowindow.marker = null
         marker.setIcon(defaultIcon)
