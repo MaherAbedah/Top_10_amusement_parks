@@ -1,43 +1,31 @@
-# Webinar map react
+# Top 10 Amusement Parks In Europe
 
-This project is used during the map react webinar.
-The project is built progressively with commit referencing each step.
+## project overview 
 
-A preview of the project is available [here](https://stackblitz.com/github/kedevked/webinar-map-react)
+this project is a simple application using the Google maps API.
+using this application you can locate and get information about the top 10
+amusement parks in Europe.
 
-## Dependencies
-
-- [google-maps-react](https://github.com/fullstackreact/google-maps-react)
-for Google Map API
 
 ## API 
 
-The project uses [Google Map](https://developers.google.com/maps/documentation/) 
-especially the Maps API
+The project uses
+- [Google Maps API](https://developers.google.com/maps/documentation/) 
+- [Media Wiki API](https://www.mediawiki.org/wiki/API:Web_APIs_hub)
 
-## Description
 
-This app displays a google Map with 5 markers. A clik on each marker displays
-infos associated to that marker. A filter also allows the user to 
-display specific markers
 
 ## Launch the project
 
 - clone the project
 
-git clone `https://github.com/kedevked/webinar-map-react.git`
+`git clone https://github.com/MaherAbedah/Top_10_amusement_parks.git`
 
 - change the working directory 
 
-`cd webinar-map-react`
+`cd Top_10_amusement_parks`
 
-### Development mode
-
-Serve the project
- 
- `npm start` or `yarn start`
-
-## Contribution
-
-This project is done as part of the react webinar for the map app. 
-So feel free to clone it and use it as the starter of your own project.
+- install the project 
+`npm install`
+- start the server 
+`npm start`
