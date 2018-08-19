@@ -101,7 +101,7 @@ const styles = theme => ({
 class AppDrawer extends React.Component {
   state = {
     open: false,
-    anchor: 'left',
+    
     locations: [
       {name: "DisneyLand France", location: {lat: 48.872236, lng: 2.775808}},
       {name: "PortAventura Spain", location: {lat: 41.087832, lng: 1.157246}},
@@ -118,7 +118,8 @@ class AppDrawer extends React.Component {
     query: '',
     markers: [],
     infowindow: new this.props.google.maps.InfoWindow(),
-    highlightedIcon: null
+    highlightedIcon: null,
+    data:[]
   };
 
   handleDrawerOpen = () => {
@@ -129,18 +130,13 @@ class AppDrawer extends React.Component {
     this.setState({ open: false });
   };
 
-  handleChangeAnchor = event => {
-    this.setState({
-      anchor: event.target.value,
-    });
-  };
-
   componentDidMount() {
     this.loadMap()
     this.onclickLocation()
     // Create a "highlighted location" marker color for when the user
     // clicks on the marker.
     this.setState({highlightedIcon: this.makeMarkerIcon('FFFF24')})
+    this.getDataWiki()
   }
 
   loadMap() {
@@ -207,10 +203,45 @@ class AppDrawer extends React.Component {
     this.map.fitBounds(bounds)
   }
 
+  getDataWiki = () => {
+    let newData = [];
+    let failedData = [];
+    this.state.locations.map((location) => {
+      return fetch(`https://en.wikipedia.org/w/api.php?&action=query&list=search&prop=extracts&titles&format=json&origin=*&srlimit=1&srsearch=${location.name}`, {
+          headers: {
+            'Origin': 'http://localhost:3001/',
+            'Content-Type': 'application/json; charset=utf-8'
+          }
+        })
+      .then(response => response.json())
+      .then(data => {
+        let url = encodeURI(`https://en.wikipedia.org/wiki/${data.query.search['0'].title}`);
+        let element = {
+          text: data.query.search['0'].snippet,
+          id: location.id,
+          url: url,
+          readMore: 'Read more'
+        };
+        newData.push(element);
+        this.setState({data: newData});
+      })
+      .catch(() => {
+        console.log('An error occured')
+        let element = {
+          id: location.id,
+          text: "Sorry, it wasn't possible to get any data from Wikipedia, please, try later",
+          readMore: "☹"
+        }
+        failedData.push(element);
+        this.setState({data: failedData});
+      })
+    })
+  }
+
   populateInfoWindow = (marker, infowindow) => {
     const defaultIcon = marker.getIcon()
-    const {highlightedIcon, markers} = this.state
-    // Check to make sure the infowindow is not already opened on this marker.
+    const {highlightedIcon, markers, data} = this.state
+    // Check the state of infowindow if already opened on this marker.
     if (infowindow.marker !== marker) {
       // reset the color of previous marker
       if (infowindow.marker) {
@@ -220,11 +251,24 @@ class AppDrawer extends React.Component {
       // change marker icon color of clicked marker
       marker.setIcon(highlightedIcon)
       infowindow.marker = marker
-      infowindow.setContent(`<h3>${marker.title}</h3><h4>user likes it</h4>`)
+      //fetching data from wikipedia using third party API
+      data.filter((item) => {
+        if(item.id === marker.id) {
+          infowindow.setContent(`<div class='marker'>
+            <h3>${marker.title}</h3>
+            <div>
+              <p>${item.text}...</p>
+              <a rel="noopener noreferrer" href=${item.url} target="_blank">${item.readMore}</a>
+            </div>
+          </div>`);
+        }
+      })
+      //infowindow.setContent(`<h3>${marker.title}</h3><h4>user likes it</h4>`)
       infowindow.open(this.map, marker)
       // Make sure the marker property is cleared if the infowindow is closed.
       infowindow.addListener('closeclick', function () {
         infowindow.marker = null
+        marker.setIcon(defaultIcon)
       })
     }
   }
@@ -234,17 +278,17 @@ class AppDrawer extends React.Component {
     let markerImage = new google.maps.MarkerImage(
       'http://chart.googleapis.com/chart?chst=d_map_spin&chld=1.15|0|' + markerColor +
       '|40|_|%E2%80%A2',
-      new google.maps.Size(21, 34),
+      new google.maps.Size(25, 45),
       new google.maps.Point(0, 0),
-      new google.maps.Point(10, 34),
-      new google.maps.Size(21, 34));
+      new google.maps.Point(10, 45),
+      new google.maps.Size(25, 45));
     return markerImage;
   }
 
 
   render() {
     const { classes, theme } = this.props;
-    const { anchor, open } = this.state;
+    const { open } = this.state;
 
     const {locations, query, markers, infowindow} = this.state
     if (query) {
@@ -270,22 +314,22 @@ class AppDrawer extends React.Component {
     const drawer = (
       <Drawer
         variant="persistent"
-        anchor={anchor}
+        
         open={open}
         classes={{
           paper: classes.drawerPaper,
         }}
       >
-        <div className={classes.drawerHeader}>
+        <div className="{classes.drawerHeader} filter-text">
           <span > Filter your search </span>
           <IconButton onClick={this.handleDrawerClose}>
-            {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+            <ChevronLeftIcon /> 
           </IconButton>
         </div>
         <Divider />
         <List>
-          <div >
-            <input role="search" type='text'
+          <div className="text-input">
+            <input  role="search" type='text'
                    value={this.state.value}
                    onChange={this.handleValueChange}/>
             <ul className="location-list">{
@@ -297,15 +341,8 @@ class AppDrawer extends React.Component {
       </Drawer>
     );
 
-    let before = null;
-    let after = null;
-
-    if (anchor === 'left') {
-      before = drawer;
-    } else {
-      after = drawer;
-    }
-
+    let before = drawer;
+    
     return (
       <div className={classes.root}>
         
@@ -313,7 +350,7 @@ class AppDrawer extends React.Component {
           <AppBar
             className={classNames(classes.appBar, {
               [classes.appBarShift]: open,
-              [classes[`appBarShift-${anchor}`]]: open,
+              [classes[`appBarShift-left`]]: open,
             })}
           >
             <Toolbar disableGutters={!open}>
@@ -332,9 +369,9 @@ class AppDrawer extends React.Component {
           </AppBar>
           {before}
           <main
-            className={classNames(classes.content, classes[`content-${anchor}`], {
+            className={classNames(classes.content, classes[`content-left`], {
               [classes.contentShift]: open,
-              [classes[`contentShift-${anchor}`]]: open,
+              [classes[`contentShift-left`]]: open,
             })}
           >
             <div className={classes.drawerHeader} />
@@ -342,7 +379,7 @@ class AppDrawer extends React.Component {
             loading map...
           </div>
           </main>
-          {after}
+         
         </div>
       </div>
     );

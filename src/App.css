@@ -48,11 +48,16 @@
   display: flex;
   flex-wrap: wrap;
 }
-
+.filter-text {
+  background-color: #F30B0BE2;
+  color: #f5f5f5;
+  padding-left: 10px;
+}
+.filter-text span {
+  padding-right: 15%;
+}
 .text-input {
-  width: 15%;
-  background-color: darkslategray;
-  height: 100vh;
+  background-color: #3F51B5FF;
 }
 
 .text-input input {
@@ -60,7 +65,6 @@
   line-height: 0.8cm;
   padding: 17px;
   padding-left: 55px;
-  width: 200px;
   border: 1px solid #f5f5f5;
   font-size: 15px;
   color: gray;
@@ -73,8 +77,8 @@
 .text-input ul {
   list-style-type: none;
   padding-left: 0px;
-  height: 600px;
-  overflow-y: scroll;
+  height: 100%;
+  margin-bottom: 10px;
 }
 
 .text-input li {
@@ -94,51 +98,18 @@
   color: red;
 }
 
-@media screen and (max-width: 800px) {
-  .text-input-hidden {
-    display: none;
-  }
-
-  .text-input {
-    position: absolute;
-    width: 4.5cm;
-    z-index: 2;
-  }
-
-  .text-input input {
-    width: 2.55cm;
-  }
-
-  .menu {
-    display: block;
-    position: absolute;
-    top: 13px !important;
-  }
-
-  .hamburger-icon {
-    width: 45px;
-    fill: #E0E0E0;
-  }
-
-  .map {
-    width: 100%;
-  }
-}
-
-@media screen and (max-width: 500px) {
-  .heading {
-    font-size: medium;
-    padding: 1em;
-  }
-
-  .menu {
-    top: 0!important;
-  }
-
-}
-
 li:focus {
   background-color: #9f8ef9;
 }
 
+.marker {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: center;
+  padding: var(--big-padding);
+  margin-bottom: 30px;
+  max-width: 200px;
+  overflow: hidden;
+}
 
