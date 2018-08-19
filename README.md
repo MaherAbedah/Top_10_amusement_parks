@@ -13,7 +13,8 @@ The project uses
 - [Google Maps API](https://developers.google.com/maps/documentation/) 
 - [Media Wiki API](https://www.mediawiki.org/wiki/API:Web_APIs_hub)
 
-
+## For the user interface 
+I used [Material UI](https://material-ui.com/)
 
 ## Launch the project
 
