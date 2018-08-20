@@ -148,7 +148,7 @@ class AppDrawer extends React.Component {
         zoom: 12,
         mapTypeId: 'roadmap'
       })
-
+      console.log(this.props.google)
       this.map = new maps.Map(node, mapConfig)
       this.addMarkers()
     }
@@ -213,23 +213,26 @@ class AppDrawer extends React.Component {
       .then(data => {
         let url = encodeURI(`https://en.wikipedia.org/wiki/${data.query.search['0'].title}`);
         let element = {
-          text: data.query.search['0'].snippet,
+          text: `${data.query.search['0'].snippet} 
+                    "Wikipedia"`,
           id: location.id,
           url: url,
-          readMore: 'Read more'
+          readMore: 'Read more WIKI'
         };
         newData.push(element);
         this.setState({data: newData});
+        
       })
       .catch(() => {
         console.log('An error occured')
         let element = {
           id: location.id,
-          text: "Sorry, it wasn't possible to get any data from Wikipedia, please, try later",
+          text: "<span>Sorry, it wasn't possible to get any data from Wikipedia, please, try later</span>",
           readMore: "☹"
-        }
+        };
         failedData.push(element);
         this.setState({data: failedData});
+        
       })
     })
   }
@@ -281,9 +284,14 @@ class AppDrawer extends React.Component {
     return markerImage;
   }
 
+  //adding this function for the state of authentication failure
+  gm_authFailure = () => {
+    alert("Google Map authorization error. Please try refreshing the page.");
+  } 
+
 
   render() {
-    const { classes, theme } = this.props;
+    const { classes } = this.props;
     const { open } = this.state;
 
     const {locations, query, markers, infowindow} = this.state
@@ -330,7 +338,7 @@ class AppDrawer extends React.Component {
                    onChange={this.handleValueChange}/>
             <ul className="location-list">{
               markers.filter(m => m.getVisible()).map((m, i) =>
-                (<li key={i}>{m.title}</li>))
+                (<li key={i} tabIndex='0'>{m.title}</li>))
             }</ul>
           </div>
         </List>

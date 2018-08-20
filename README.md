@@ -13,8 +13,9 @@ The project uses
 - [Google Maps API](https://developers.google.com/maps/documentation/) 
 - [Media Wiki API](https://www.mediawiki.org/wiki/API:Web_APIs_hub)
 
-## For the user interface 
-I used [Material UI](https://material-ui.com/)
+## specifications 
+- I used [Material UI](https://material-ui.com/)
+- The default service worker is used, it will be available only on the production mode
 
 ## Launch the project
 
@@ -30,3 +31,5 @@ I used [Material UI](https://material-ui.com/)
 `npm install`
 - start the server 
 `npm start`
+- to run the production build 
+`npm run build`
