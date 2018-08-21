@@ -148,7 +148,7 @@ class AppDrawer extends React.Component {
         zoom: 12,
         mapTypeId: 'roadmap'
       })
-      console.log(this.props.google)
+      
       this.map = new maps.Map(node, mapConfig)
       this.addMarkers()
     }
@@ -166,6 +166,11 @@ class AppDrawer extends React.Component {
       that.populateInfoWindow(markers[markerInd], infowindow)
     }
     document.querySelector('.location-list').addEventListener('click', function (e) {
+      if (e.target && e.target.nodeName === "LI") {
+        displayInfowindow(e)
+      }
+    })
+    document.querySelector('.location-list').addEventListener('keypress', function (e) {
       if (e.target && e.target.nodeName === "LI") {
         displayInfowindow(e)
       }
@@ -333,12 +338,12 @@ class AppDrawer extends React.Component {
         <Divider />
         <List>
           <div className="text-input">
-            <input  role="search" type='text'
+            <input  role="searchbox" type='search'
                    value={this.state.value}
                    onChange={this.handleValueChange}/>
-            <ul className="location-list">{
+            <ul role="list" className="location-list">{
               markers.filter(m => m.getVisible()).map((m, i) =>
-                (<li key={i} tabIndex='0'>{m.title}</li>))
+                (<li key={i} role="listitem" tabIndex='0'>{m.title}</li>))
             }</ul>
           </div>
         </List>
