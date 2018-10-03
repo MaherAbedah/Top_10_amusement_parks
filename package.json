@@ -1,8 +1,9 @@
 {
-  "name": "webinar-map-react",
+  "name": "amusement-parks-europe",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "material-ui": "latest",
     "classnames": "^2.2.6",
     "google-maps-react": "^2.0.2",
     "react": "^16.4.1",
