@@ -33,3 +33,6 @@ The project uses
 `npm start`
 - to run the production build 
 `npm run build`
+
+### Or you can check the online application here 
+[Top 10 Amusement Parks In Europe](https://amusement-parks-europe.herokuapp.com/)
