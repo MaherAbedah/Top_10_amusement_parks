@@ -23,7 +23,7 @@ const styles = theme => ({
     height: '100%',
     zIndex: 1,
     overflow: 'hidden',
-    position: 'relative',
+    position: 'absolute',
     display: 'flex',
     width: '100%',
   },
