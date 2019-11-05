@@ -12,6 +12,7 @@ import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import InputBase from '@material-ui/core/InputBase';
 
 const drawerWidth = 240;
 
@@ -338,9 +339,16 @@ class AppDrawer extends React.Component {
         <Divider />
         <List>
           <div className="text-input">
-            <input  role="searchbox" type='search'
+            <InputBase
+              className={classes.input}
+              placeholder="Search parks"
+              inputProps={{ 'aria-label': 'search parks' }}
+              value={this.state.value}
+              onChange={this.handleValueChange}
+            />
+            {/*<input  role="searchbox" type='search'
                    value={this.state.value}
-                   onChange={this.handleValueChange}/>
+                   onChange={this.handleValueChange}/>*/}
             <ul role="list" className="location-list">{
               markers.filter(m => m.getVisible()).map((m, i) =>
                 (<li key={i} role="listitem" tabIndex='0'>{m.title}</li>))
